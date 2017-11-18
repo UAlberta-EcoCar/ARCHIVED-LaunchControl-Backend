@@ -1,0 +1,6 @@
+Django
+djangorestframework==3.6.4
+coreapi
+django-filter
+drf_openapi 
+six
