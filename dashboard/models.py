@@ -42,3 +42,24 @@ class DataEvent(models.Model):
     json_data = jsonfield.JSONField()
     time = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+
+class Chart(models.Model):
+    LINECHART = 'linechart'
+    LAUNCH_CONTROL_CHART_TYPES = (
+        (LINECHART, 'Line Chart'),
+    )
+    name = models.CharField(max_length=80)
+    team = models.ForeignKey(Teams, on_delete=models.CASCADE)
+    dataPointInfo = models.ForeignKey(DataPointType, on_delete=models.CASCADE)
+    positionID = models.IntegerField()
+    graphType = models.CharField(
+        max_length=20,
+        choices=LAUNCH_CONTROL_CHART_TYPES,
+        default=LINECHART,
+    )
+
+class Dashboard(models.Model):
+    name = models.CharField(max_length=80)
+    team = models.ForeignKey(Teams, on_delete=models.CASCADE)
+    pipeline = models.ForeignKey(DataPipeline, on_delete=models.CASCADE)
+    charts = models.ManyToManyField(Chart, blank=True)
