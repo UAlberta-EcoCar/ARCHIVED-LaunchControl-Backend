@@ -5,7 +5,7 @@ import jsonfield
 
 # Create your models here.
 
-class Teams(models.Model):
+class Team(models.Model):
     name = models.CharField(max_length=80, unique=True)
     link = models.URLField(blank=True)
 
@@ -14,7 +14,7 @@ class Teams(models.Model):
 
 class DataPipeline(models.Model):
     name = models.CharField(max_length=80)
-    team = models.ForeignKey(Teams, on_delete=models.CASCADE)
+    team = models.ForeignKey(Team, on_delete=models.CASCADE)
 
     def __str__(self):
         return self.name
@@ -49,7 +49,7 @@ class Chart(models.Model):
         (LINECHART, 'Line Chart'),
     )
     name = models.CharField(max_length=80)
-    team = models.ForeignKey(Teams, on_delete=models.CASCADE)
+    team = models.ForeignKey(Team, on_delete=models.CASCADE)
     dataPointInfo = models.ForeignKey(DataPointType, on_delete=models.CASCADE)
     positionID = models.IntegerField()
     graphType = models.CharField(
@@ -60,6 +60,6 @@ class Chart(models.Model):
 
 class Dashboard(models.Model):
     name = models.CharField(max_length=80)
-    team = models.ForeignKey(Teams, on_delete=models.CASCADE)
+    team = models.ForeignKey(Team, on_delete=models.CASCADE)
     pipeline = models.ForeignKey(DataPipeline, on_delete=models.CASCADE)
     charts = models.ManyToManyField(Chart, blank=True)
