@@ -1,0 +1,16 @@
+body {
+    align-items: center;
+    background-image: url("../HomeBackground.jpg");
+}
+  
+.background {
+    background-image: url("../HomeBackground.jpg");
+}
+
+.vertical-center {
+    min-height: 100%; 
+    min-height: 100vh; 
+  
+    display: flex;
+    align-items: center;
+}
