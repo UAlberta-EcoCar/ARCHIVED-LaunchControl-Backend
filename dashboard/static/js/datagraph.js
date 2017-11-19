@@ -129,3 +129,16 @@ class EcoCarGraph{
         }
     }
 }
+
+class EcoCarDisplayData {
+    constructor(divName) {
+        this.element = document.getElementById(divName);
+        this.update = this
+            .update
+            .bind(this);
+    }
+
+    update(data) {
+        this.element.innerHTML = data;
+    }
+}

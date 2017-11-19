@@ -30,6 +30,7 @@ class DataPointType(models.Model):
     )
     name = models.CharField(max_length=50)
     pipeline = models.ForeignKey(DataPipeline, on_delete=models.CASCADE)
+    unit = models.CharField(max_length=50, blank=True)
     dataType = models.CharField(
         max_length=20,
         choices=LAUNCH_CONTROL_DATA_TYPES,

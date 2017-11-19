@@ -40,7 +40,7 @@ class PipelineForm(forms.ModelForm):
 class DataPointTypeForm(forms.ModelForm):
     class Meta:
         model = DataPointType
-        fields = ['name', 'pipeline', 'dataType']
+        fields = ['name', 'pipeline', 'dataType', 'unit']
 
     def __init__(self, *args, **kwargs):
         super(DataPointTypeForm, self).__init__(*args, **kwargs)

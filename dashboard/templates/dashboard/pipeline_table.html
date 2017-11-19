@@ -5,10 +5,21 @@
             <p class="category">Data sources for {{ datapipeline.name }}</p>
         </div>
         <div class="content">
+            <div class="input-group">
+                <div class="input-group-addon">Pipeline Endpoint</div>
+                <input class="form-control" type="text" value="http://localhost:8000/api/v1/pipeline/" readonly>
+            </div>
+            <br>
+            <div class="input-group">
+                <div class="input-group-addon">Pipeline ID</div>
+                <input class="form-control" type="text" value="{{ datapipeline.pk }}" readonly>
+            </div>
+
             <div class="content table-responsive table-full-width">
                 <table class="table table-hover table-striped">
                     <thead>
                         <th>Name</th>
+                        <th>Unit</th>
                         <th>Data Type</th>
                         <th>Actions</th>
                     </thead>
@@ -16,10 +27,10 @@
                         {% for datapoint in datapoints %}
                         <tr>
                             <td>{{ datapoint.name }}</td>
+                            <td>{{ datapoint.unit }}</td>
                             <td>{{ datapoint.dataType }}</td>
-                            <td>Put buttons here</td>
-                           </tr>
-                        <tr>
+                            <td><a class="btn btn-default" href="{% url 'datapointtype_edit' pk=datapoint.pk %}">Edit Datapoint <i class="pe-7s-pen"></i></a></td>
+                        </tr>
                         {% endfor %}
                     </tbody>
                 </table>

@@ -146,17 +146,28 @@ def dashboard_edit(request, pk):
         if form.is_valid():
             dboard = form.save(commit=False)
             dboard.save()
+            form.save_m2m()
             return redirect('dashboard', pk=dboard.pk)
     else:
         form = DashboardForm(instance=dboard)
-    return render(request, 'dashboard/dashboard_edit.html', {'form': form})
+    dashboards = Dashboard.objects.filter(team__in=request.user.userprofile.team.all())
+    pipelines = DataPipeline.objects.filter(team__in=request.user.userprofile.team.all())
+    data = {}
+    data['dashboards'] = dashboards
+    data['pipelines'] = pipelines
+    data['form'] = form
+    return render(request, 'dashboard/dashboard_edit.html', data)
 
 def chart(request, pk):
     if not request.user.is_authenticated:
         raise Http404
     chart_to_view = get_object_or_404(Chart, pk=pk)
+    dashboards = Dashboard.objects.filter(team__in=request.user.userprofile.team.all())
+    pipelines = DataPipeline.objects.filter(team__in=request.user.userprofile.team.all())
     data = {}
     data['chart'] = chart_to_view
+    data['dashboards'] = dashboards
+    data['pipelines'] = pipelines
     return render(request, "dashboard/dashboard_chart_view.html", data)
 
 def chart_edit(request, pk):
@@ -177,8 +188,12 @@ def pipeline(request, pk):
     if not request.user.is_authenticated:
         raise Http404
     pipeline_to_view = get_object_or_404(DataPipeline, pk=pk)
+    dashboards = Dashboard.objects.filter(team__in=request.user.userprofile.team.all())
+    pipelines = DataPipeline.objects.filter(team__in=request.user.userprofile.team.all())
     data = {}
     data['pipeline'] = pipeline_to_view
+    data['dashboards'] = dashboards
+    data['pipelines'] = pipelines
     return render(request, "dashboard/dashboard_pipeline_view.html", data)
 
 def pipeline_edit(request, pk):
@@ -190,9 +205,16 @@ def pipeline_edit(request, pk):
         if form.is_valid():
             curr_pipeline = form.save(commit=False)
             curr_pipeline.save()
+            form.save_m2m()
             return redirect('pipeline', pk=curr_pipeline.pk)
     else:
         form = PipelineForm(instance=curr_pipeline)
+    dashboards = Dashboard.objects.filter(team__in=request.user.userprofile.team.all())
+    pipelines = DataPipeline.objects.filter(team__in=request.user.userprofile.team.all())
+    data = {}
+    data['pipeline'] = pipeline_to_view
+    data['dashboards'] = dashboards
+    data['form'] = form
     return render(request, 'dashboard/dashboard_edit_pipeline.html', {'form': form})
 
 def datapointtype(request, pk):
