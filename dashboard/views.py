@@ -20,6 +20,8 @@ def pipeline_home(request):
     return render(request, "dashboard/pipeline_home.html", data)
 
 def new_chart(request):
+    if not request.user.is_authenticated:
+        raise Http404
     if request.method == "POST":
         form = ChartForm(request.POST)
         if form.is_valid():
@@ -36,6 +38,8 @@ def new_chart(request):
     return render(request, "dashboard_new_chart.html", {'form': form})
 
 def new_dashboard(request):
+    if not request.user.is_authenticated:
+        raise Http404
     if request.method == "POST":
         form = DashboardForm(request.POST)
         if form.is_valid():
