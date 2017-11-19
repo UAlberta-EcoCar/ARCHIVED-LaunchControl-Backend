@@ -1,0 +1,9 @@
+{% extends 'dashboard/dashboard_base.html' %}
+{% block content %}
+<a class="btn btn-default" href="{% url 'chart_edit' pk=chart.pk %}"><span class="glyphicon glyphicon-pencil"></span></a>
+<h1>{{ chart.name }}</h1>
+<br><p1>{{ chart.team }}</p1></br>
+<br><p1>{{ chart.dataPointInfo }}</p1></br>
+<br><p1>{{ chart.positionID }}</p1></br>
+<br><p1>{{ chart.graphType }}</p1></br>
+{% endblock %}
