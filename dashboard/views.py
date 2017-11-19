@@ -9,7 +9,11 @@ def dashboard_home(request):
     if not request.user.is_authenticated:
         raise Http404
     data = {}
-    return render(request, "dashboard/dashboard_index.html", data)
+    dashboards = Dashboard.objects.filter(team__in=request.user.userprofile.team.all())
+    pipelines = DataPipeline.objects.filter(team__in=request.user.userprofile.team.all())
+    data['dashboards'] = dashboards
+    data['pipelines'] = pipelines
+    return render(request, "dashboard/dashboard_base.html", data)
 
 def pipeline_home(request):
     if not request.user.is_authenticated:
@@ -63,3 +67,8 @@ def dashboard(request, pk):
     data['dashboard'] = dashboard_to_view
     return render(request, "dashboard/dashboard_view.html", data)
 
+def api_dashboard(request):
+    if not request.user.is_authenticated:
+        raise Http404
+    data = {}
+    return render(request, "dashboard/dashboard_view.html", data)
