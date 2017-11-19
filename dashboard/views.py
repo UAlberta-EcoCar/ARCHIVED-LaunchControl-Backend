@@ -61,6 +61,7 @@ def new_dashboard(request):
             model_instance = form.save(commit=False)
             model_instance.timestamp = timezone.now()
             model_instance.save()
+            form.save_m2m()
             return redirect('dashboard_home')
     else:
         form = DashboardForm()
