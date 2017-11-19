@@ -1,5 +1,19 @@
 {% extends 'dashboard/dashboard_base.html' %}
 {% block content %}
     <a class="btn btn-default" href="{% url 'dashboard_edit' pk=dashboard_to_view.pk %}"><span class="glyphicon glyphicon-pencil"></span></a>
-    <h1>{{ dashboard.name }}</h1>
+    <h1>{{ dashboard_to_view.name }}</h1>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    socket = new WebSocket("ws://" + window.location.host + "/chat/");
+    socket.onmessage = function(e) {
+        alert(e.data);
+    }
+    socket.onopen = function() {
+        socket.send("1");
+    }
+    // Call onopen directly if socket is already open
+    if (socket.readyState == WebSocket.OPEN) socket.onopen();
+</script>
 {% endblock %}

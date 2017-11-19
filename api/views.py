@@ -8,6 +8,8 @@ from rest_framework.response import Response
 
 import coreapi
 
+from channels import Group, Channel
+
 from drf_openapi.utils import view_config
 from drf_openapi.views import SchemaView
 
@@ -26,6 +28,7 @@ class DataEventAPI(APIView):
         serializer = DataEventSerializer(data=request.data, many=False, context=context)
         if serializer.is_valid():
             serializer.save()
+            Group(str(serializer.data['pipeline'])).send({"text": str(serializer.data),},immediately=True)
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 

@@ -31,6 +31,7 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    'channels',
     'core.apps.CoreConfig',
     'api.apps.ApiConfig',
     'dashboard.apps.DashboardConfig',
@@ -136,4 +137,11 @@ REST_FRAMEWORK = {
         'rest_framework.authentication.SessionAuthentication'
     ),
     'DEFAULT_VERSIONING_CLASS': 'rest_framework.versioning.URLPathVersioning'
+}
+
+CHANNEL_LAYERS = {
+    "default": {
+        "BACKEND": "asgiref.inmemory.ChannelLayer",
+        "ROUTING": "LaunchControl.routing.channel_routing",
+    },
 }
