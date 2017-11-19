@@ -107,8 +107,12 @@ def dashboard(request, pk):
     if not request.user.is_authenticated:
         raise Http404
     dashboard_to_view = get_object_or_404(Dashboard, pk=pk)
+    dashboards = Dashboard.objects.filter(team__in=request.user.userprofile.team.all())
+    pipelines = DataPipeline.objects.filter(team__in=request.user.userprofile.team.all())
     data = {}
-    data['dashboard'] = dashboard_to_view
+    data['dashboard_to_view'] = dashboard_to_view
+    data['dashboards'] = dashboards
+    data['pipelines'] = pipelines
     return render(request, "dashboard/dashboard_view.html", data)
 
 def api_dashboard(request):
