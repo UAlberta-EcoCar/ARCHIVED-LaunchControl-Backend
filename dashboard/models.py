@@ -47,7 +47,7 @@ class DataEvent(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
 
     def __str__(self):
-        return self.name
+        return self.pk
 
 
 class Chart(models.Model):
