@@ -1,0 +1,7 @@
+{% extends 'dashboard/dashboard_base.html' %}
+{% block content %}
+<a class="btn btn-default" href="{% url 'datapointtype_edit' pk=datapointtype.pk %}"><span class="glyphicon glyphicon-pencil"></span></a>
+<h1>{{ datapointtype.name }}</h1>
+<br><p1>{{ datapointtype.pipeline }}</p1></br>
+<br><p1>{{ datapointtype.dataType }}</p1></br>
+{% endblock %}

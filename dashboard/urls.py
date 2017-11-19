@@ -14,4 +14,8 @@ urlpatterns = [
     url(r'^chart/new/$', views.new_chart, name="new_chart"),
     url(r'^pipeline/new/$', views.new_pipeline, name='new_pipeline'),
     url(r'^datapointtype/new/$', views.new_datapointtype, name='new_datapointtype'), 
+   # url(r'^pipeline/(?P<pk>\d+)/$', views.pipeline, name="pipeline"),
+    url(r'^pipeline/(?P<pk>\d+)/edit/$', views.pipeline_edit, name='pipeline_edit'),
+    url(r'^datapointtype/(?P<pk>\d+)/$', views.datapointtype, name="datapointtype"),
+    url(r'^datapointtype/(?P<pk>\d+)/edit/$', views.datapointtype_edit, name="datapointtype_edit"),
 ]

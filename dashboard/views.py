@@ -171,3 +171,47 @@ def chart_edit(request, pk):
     else:
         form = ChartForm(instance=curr_chart)
     return render(request, 'dashboard/dashboard_edit_chart.html', {'form': form})
+
+def pipeline(request, pk):
+    if not request.user.is_authenticated:
+        raise Http404
+    pipeline_to_view = get_object_or_404(DataPipeline, pk=pk)
+    data = {}
+    data['pipeline'] = pipeline_to_view
+    return render(request, "dashboard/dashboard_pipeline_view.html", data)
+
+def pipeline_edit(request, pk):
+    if not request.user.is_authenticated:
+        raise Http404
+    curr_pipeline = get_object_or_404(DataPipeline, pk=pk)
+    if request.method == "POST":
+        form = DataPipelineForm(request.POST, instance=curr_pipeline)
+        if form.is_valid():
+            curr_pipeline = form.save(commit=False)
+            curr_pipeline.save()
+            return redirect('pipeline', pk=curr_pipeline.pk)
+    else:
+        form = PipelineForm(instance=curr_pipeline)
+    return render(request, 'dashboard/dashboard_edit_pipeline.html', {'form': form})
+
+def datapointtype(request, pk):
+    if not request.user.is_authenticated:
+        raise Http404
+    datapointtype_to_view = get_object_or_404(DataPointType, pk=pk)
+    data = {}
+    data['datapointtype'] = datapointtype_to_view
+    return render(request, "dashboard/dashboard_datapointtype_view.html", data)
+
+def datapointtype_edit(request, pk):
+    if not request.user.is_authenticated:
+        raise Http404
+    curr_datapointtype = get_object_or_404(DataPointType, pk=pk)
+    if request.method == "POST":
+        form = DataPointTypeForm(request.POST, instance=curr_datapointtype)
+        if form.is_valid():
+            curr_datapointtype = form.save(commit=False)
+            curr_datapointtype.save()
+            return redirect('datapointtype', pk=curr_datapointtype.pk)
+    else:
+        form = DataPointTypeForm(instance=curr_datapointtype)
+    return render(request, 'dashboard/dashboard_edit_datapointtype.html', {'form': form})
