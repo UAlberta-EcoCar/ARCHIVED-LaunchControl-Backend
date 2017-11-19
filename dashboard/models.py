@@ -36,12 +36,19 @@ class DataPointType(models.Model):
         default=NUMBER,
     )
 
+    def __str__(self):
+        return self.name
+
 class DataEvent(models.Model):
     user = models.ForeignKey(User)
     pipeline = models.ForeignKey(DataPipeline, on_delete=models.CASCADE)
     json_data = jsonfield.JSONField()
     time = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return self.name
+
 
 class Chart(models.Model):
     LINECHART = 'linechart'
@@ -58,8 +65,16 @@ class Chart(models.Model):
         default=LINECHART,
     )
 
+    def __str__(self):
+        return self.name
+
+
 class Dashboard(models.Model):
     name = models.CharField(max_length=80)
     team = models.ForeignKey(Team, on_delete=models.CASCADE)
     pipeline = models.ForeignKey(DataPipeline, on_delete=models.CASCADE)
     charts = models.ManyToManyField(Chart, blank=True)
+
+    def __str__(self):
+        return self.name
+
