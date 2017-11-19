@@ -7,6 +7,10 @@ body {
     background-image: url("../HomeBackground.jpg");
 }
 
+.link_color {
+    color: white;
+}
+
 .vertical-center {
     min-height: 100%; 
     min-height: 100vh; 

@@ -15,7 +15,7 @@ def dashboard_home(request):
     pipelines = DataPipeline.objects.filter(team__in=request.user.userprofile.team.all())
     data['dashboards'] = dashboards
     data['pipelines'] = pipelines
-    return render(request, "dashboard/dashboard_base.html", data)
+    return render(request, "dashboard/dashboard_index.html", data)
 
 def pipeline_home(request, pk):
     if not request.user.is_authenticated:
