@@ -149,3 +149,25 @@ def dashboard_edit(request, pk):
     else:
         form = DashboardForm(instance=dboard)
     return render(request, 'dashboard/dashboard_edit.html', {'form': form})
+
+def chart(request, pk):
+    if not request.user.is_authenticated:
+        raise Http404
+    chart_to_view = get_object_or_404(Chart, pk=pk)
+    data = {}
+    data['chart'] = chart_to_view
+    return render(request, "dashboard/dashboard_chart_view.html", data)
+
+def chart_edit(request, pk):
+    if not request.user.is_authenticated:
+        raise Http404
+    curr_chart = get_object_or_404(Chart, pk=pk)
+    if request.method == "POST":
+        form = ChartForm(request.POST, instance=curr_chart)
+        if form.is_valid():
+            curr_chart = form.save(commit=False)
+            curr_chart.save()
+            return redirect('chart', pk=curr_chart.pk)
+    else:
+        form = ChartForm(instance=curr_chart)
+    return render(request, 'dashboard/dashboard_edit_chart.html', {'form': form})
