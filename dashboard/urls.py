@@ -8,6 +8,7 @@ urlpatterns = [
     url(r'^api/$', views.api_dashboard, name='api_dashboard'),
     url(r'^pipeline/(?P<pk>\d+)/$', views.pipeline_home, name='pipeline_home'),
     url(r'^(?P<pk>\d+)/$', views.dashboard, name='dashboard'),
+    url(r'^(?P<pk>\d+)/edit/$', views.dashboard_edit, name='dashboard_edit'),
     url(r'^chart/new/$', views.new_chart, name="new_chart"),
     url(r'^pipeline/new/$', views.new_pipeline, name='new_pipeline'),
     url(r'^datapointtype/new/$', views.new_datapointtype, name='new_datapointtype'), 

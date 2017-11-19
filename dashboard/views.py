@@ -131,3 +131,17 @@ def api_dashboard(request):
     data['api_token'] = api_token
     data['form'] = form
     return render(request, "dashboard/dashboard_api.html", data)
+
+def dashboard_edit(request, pk):
+    if not request.user.is_authenticated:
+        raise Http404
+    dboard = get_object_or_404(Dashboard, pk=pk)
+    if request.method == "POST":
+        form = DashboardForm(request.POST, instance=dboard)
+        if form.is_valid():
+            dboard = form.save(commit=False)
+            dboard.save()
+            return redirect('dashboard', pk=dboard.pk)
+    else:
+        form = DashboardForm(instance=dboard)
+    return render(request, 'dashboard/dashboard_edit.html', {'form': form})
