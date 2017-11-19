@@ -113,6 +113,7 @@ def dashboard(request, pk):
     data['dashboard_to_view'] = dashboard_to_view
     data['dashboards'] = dashboards
     data['pipelines'] = pipelines
+    data['charts'] = dashboard_to_view.charts.all()
     return render(request, "dashboard/dashboard_view.html", data)
 
 def api_dashboard(request):

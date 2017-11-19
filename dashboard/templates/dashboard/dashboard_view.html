@@ -1,7 +1,34 @@
 {% extends 'dashboard/dashboard_base.html' %}
 {% block content %}
+    <h1 style="margin-top:5px;">{{ dashboard_to_view.name }}</h1>
     <a class="btn btn-default" href="{% url 'dashboard_edit' pk=dashboard_to_view.pk %}"><span class="glyphicon glyphicon-pencil"></span></a>
-    <h1>{{ dashboard_to_view.name }}</h1>
+    <br>
+    <br>
+    {% for chart in charts %}
+        {% if not forloop.counter|divisibleby:2 %}
+        <div class="row">
+        {% endif %}
+            <div class="col-md-6">
+                <div class="card ">
+                    <div class="header">
+                        <h4 class="title">{{ chart.name }}</h4>
+                        <p class="category">All products including Taxes</p>
+                    </div>
+                    <div class="content">
+                        <div id="chartActivity" class="ct-chart"></div>
+            
+                        <div class="footer">
+                            <div class="stats">
+                                <i class="fa fa-check"></i> Data information certified
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% if forloop.counter|divisibleby:2 %}
+        </div>
+        {% endif %}
+    {% endfor %}
 {% endblock %}
 
 {% block scripts %}
