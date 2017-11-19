@@ -41,14 +41,22 @@
                 </div>
 
                 <ul class="nav">
+                    {% if '/dashboard/' == request.path %}
                     <li class="active">
+                    {% else %}
+                    <li>
+                    {% endif %}
                         <a href="{% url 'dashboard_home' %}">
                             <i class="pe-7s-home"></i>
                             <p>Home Dashboard</p>
                         </a>
                     </li>
 
+                    {% if '/dashboard/api/' == request.path %}
+                    <li class="active">
+                    {% else %}
                     <li>
+                    {% endif %}
                         <a href="{% url 'api_dashboard' %}">
                             <i class="pe-7s-server"></i>
                             <p>API</p>
@@ -65,13 +73,12 @@
 
                     {% for pipeline in pipelines %}
                     <li>
-                        <a href="typography.html">
+                        <a href="{% url 'pipeline_home' pk=pipeline.pk %}">
                             <i class="pe-7s-network"></i>
                             <p>{{ pipeline.name }}</p>
                         </a>
                     </li>
                     {% endfor %}
-
                 </ul>
             </div>
         </div>
@@ -91,8 +98,18 @@
                     <div class="collapse navbar-collapse">
                         <ul class="nav navbar-nav navbar-left">
                             <li>
-                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                <a href="#">
                                     <p class="hidden-lg hidden-md">Dashboard</p>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="{% url 'new_dashboard' %}">
+                                    <p>Add new dashboard</p>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#">
+                                    <p>Add new pipeline</p>
                                 </a>
                             </li>
                         </ul>

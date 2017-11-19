@@ -1,0 +1,19 @@
+<div class="col-md-12">
+        <div class="card">
+            <div class="header">
+                <h4 class="title">API</h4>
+            </div>
+            <div class="content">
+                <div class="input-group">
+                    <div class="input-group-addon">Your API Token</div>
+                    <input class="form-control" type="text" value="{{ api_token }}" readonly>
+                </div>
+                <br>
+                <form method="POST" class="post-form">{% csrf_token %} 
+                    <button button type="submit" class="btn btn-outline-danger">
+                        Reset API Key
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>

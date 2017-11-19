@@ -1,0 +1,29 @@
+<div class="col-md-12">
+    <div class="card">
+        <div class="header">
+            <h4 class="title">{{ datapipeline.name }}</h4>
+            <p class="category">Data sources for {{ datapipeline.name }}</p>
+        </div>
+        <div class="content">
+            <div class="content table-responsive table-full-width">
+                <table class="table table-hover table-striped">
+                    <thead>
+                        <th>Name</th>
+                        <th>Data Type</th>
+                        <th>Actions</th>
+                    </thead>
+                    <tbody>
+                        {% for datapoint in datapoints %}
+                        <tr>
+                            <td>{{ datapoint.name }}</td>
+                            <td>{{ datapoint.dataType }}</td>
+                            <td>Put buttons here</td>
+                           </tr>
+                        <tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
