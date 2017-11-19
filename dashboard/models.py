@@ -40,7 +40,7 @@ class DataPointType(models.Model):
         return self.name
 
 class DataEvent(models.Model):
-    user = models.ForeignKey(User)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
     pipeline = models.ForeignKey(DataPipeline, on_delete=models.CASCADE)
     json_data = jsonfield.JSONField()
     time = models.DateTimeField(auto_now_add=True)

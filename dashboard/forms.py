@@ -1,5 +1,5 @@
 from django import forms
-from .models import Chart, Dashboard
+from .models import Chart, Dashboard, DataPipeline, DataPointType
 
 class ChartForm(forms.ModelForm):
     class Meta:
@@ -24,3 +24,27 @@ class DashboardForm(forms.ModelForm):
             self.fields[field].widget.attrs.update({
                 'class': 'form-control'
             })
+
+class PipelineForm(forms.ModelForm):
+    class Meta:
+        model = DataPipeline
+        fields = ['name', 'team']
+
+    def __init__(self, *args, **kwargs):
+        super(PipelineForm, self).__init__(*args, **kwargs)
+        for field in iter(self.fields):
+            self.fields[field].widget.attrs.update({
+                'class': 'form-control'
+            }) 
+
+class DataPointTypeForm(forms.ModelForm):
+    class Meta:
+        model = DataPointType
+        fields = ['name', 'pipeline', 'dataType']
+
+    def __init__(self, *args, **kwargs):
+        super(DataPointTypeForm, self).__init__(*args, **kwargs)
+        for field in iter(self.fields):
+            self.fields[field].widget.attrs.update({
+                'class': 'form-control'
+            }) 
