@@ -14,7 +14,7 @@ def dashboard_home(request):
 def pipeline_home(request):
     if not request.user.is_authenticated:
         raise Http404
-    pipelines = DataPipeline.objects.filter(team=request.user.userprofile.team)
+    pipelines = DataPipeline.objects.filter(team__in=request.user.userprofile.team.all())
     data = {}
     data[pipelines] = pipelines
     return render(request, "dashboard/pipeline_home.html", data)
