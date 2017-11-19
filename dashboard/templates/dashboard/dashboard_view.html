@@ -1,4 +1,10 @@
 {% extends 'dashboard/dashboard_base.html' %}
+{% load staticfiles %}
+
+{% block header %}
+<link href="{% static 'css/graph.css' %}" rel="stylesheet">
+{% endblock %}
+
 {% block content %}
     <h1 style="margin-top:5px;">{{ dashboard_to_view.name }}</h1>
     <a class="btn btn-default" href="{% url 'dashboard_edit' pk=dashboard_to_view.pk %}"><span class="glyphicon glyphicon-pencil"></span></a>
@@ -12,10 +18,10 @@
                 <div class="card ">
                     <div class="header">
                         <h4 class="title">{{ chart.name }}</h4>
-                        <p class="category">All products including Taxes</p>
+                        <p class="category"><span id="{{ chart.dataPointInfo.name }}">0</span> </p>
                     </div>
                     <div class="content">
-                        <div id="chartActivity" class="ct-chart"></div>
+                        <svg class="{{ chart.name|cut:" " }}"></svg>
             
                         <div class="footer">
                             <div class="stats">
@@ -32,15 +38,35 @@
 {% endblock %}
 
 {% block scripts %}
+<script src="https://d3js.org/d3.v3.min.js"></script>
+<script src="{% static 'js/datagraph.js' %}"></script>
 <script>
-    socket = new WebSocket("ws://" + window.location.host + "/chat/");
-    socket.onmessage = function(e) {
-        alert(e.data);
+    var dataPacket = {
+        "Firstnumber": 5.0,
     }
+    socket = new WebSocket("ws://" + window.location.host + "/chat/");
+    
+    socket.onmessage = function(e) {
+        //console.log(e.data.toString());
+        var data = JSON.parse(e.data.toString());
+        if (data.pipeline == "{{ dashboard_to_view.pipeline.pk }}"){
+            dataPacket = data.json_data;
+            console.log(dataPacket);
+        }
+    }
+
     socket.onopen = function() {
+        console.log("Connected");
         socket.send("{{ dashboard_to_view.pipeline.pk }}");
     }
     // Call onopen directly if socket is already open
     if (socket.readyState == WebSocket.OPEN) socket.onopen();
+
+    {% for chart in charts %}
+    var {{ chart.name|cut:" " }} = new EcoCarGraph("{{ chart.name|cut:" " }}", 200, 500, function (){
+        return dataPacket.{{ chart.dataPointInfo.name|cut:" " }};
+    });
+    {{ chart.name|cut:" " }}.tick();
+    {% endfor %}
 </script>
 {% endblock %}

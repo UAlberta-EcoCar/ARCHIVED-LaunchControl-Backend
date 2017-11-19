@@ -17,6 +17,8 @@ from .serializers import DataEventSerializer
 
 from dashboard.models import DataPipeline
 
+import json
+
 class DataEventAPI(APIView):
 
     @view_config(response_serializer=DataEventSerializer)
@@ -28,7 +30,7 @@ class DataEventAPI(APIView):
         serializer = DataEventSerializer(data=request.data, many=False, context=context)
         if serializer.is_valid():
             serializer.save()
-            Group(str(serializer.data['pipeline'])).send({"text": str(serializer.data),},immediately=True)
+            Group(str(serializer.data['pipeline'])).send({"text": json.dumps(serializer.data),},immediately=True)
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
