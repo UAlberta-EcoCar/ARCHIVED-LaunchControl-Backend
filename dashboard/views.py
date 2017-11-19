@@ -1,7 +1,7 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.http import Http404
 from django.utils import timezone
-from .models import DataPipeline, Chart
+from .models import DataPipeline, Chart, Dashboard
 from .forms import ChartForm, DashboardForm
 # Create your views here.
 
@@ -35,7 +35,7 @@ def new_chart(request):
     else:
         form = ChartForm()
 
-    return render(request, "dashboard_new_chart.html", {'form': form})
+    return render(request, "dashboard/dashboard_new_chart.html", {'form': form})
 
 def new_dashboard(request):
     if not request.user.is_authenticated:
@@ -53,4 +53,13 @@ def new_dashboard(request):
     else:
         form = DashboardForm()
 
-    return render(request, "dashboard_new_dashboard.html", {'form': form})
+    return render(request, "dashboard/dashboard_new_dashboard.html", {'form': form})
+
+def dashboard(request, pk):
+    if not request.user.is_authenticated:
+        raise Http404
+    dashboard_to_view = get_object_or_404(Dashboard, pk=pk)
+    data = {}
+    data['dashboard'] = dashboard_to_view
+    return render(request, "dashboard/dashboard_view.html", data)
+
