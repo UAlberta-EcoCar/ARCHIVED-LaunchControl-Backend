@@ -8,3 +8,4 @@ six
 asgiref
 Twisted
 channels
+pypiwin32
