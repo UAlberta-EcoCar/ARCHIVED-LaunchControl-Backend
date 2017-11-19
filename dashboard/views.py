@@ -1,7 +1,11 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.http import Http404
 from django.utils import timezone
-from .models import DataPipeline, Chart, Dashboard
+from django import forms
+
+from rest_framework.authtoken.models import Token
+
+from .models import DataPipeline, Chart, Dashboard, DataPointType
 from .forms import ChartForm, DashboardForm
 # Create your views here.
 
@@ -15,13 +19,19 @@ def dashboard_home(request):
     data['pipelines'] = pipelines
     return render(request, "dashboard/dashboard_base.html", data)
 
-def pipeline_home(request):
+def pipeline_home(request, pk):
     if not request.user.is_authenticated:
         raise Http404
-    pipelines = DataPipeline.objects.filter(team__in=request.user.userprofile.team.all())
+    datapipeline_to_view = get_object_or_404(DataPipeline, pk=pk)
     data = {}
-    data[pipelines] = pipelines
-    return render(request, "dashboard/pipeline_home.html", data)
+    dashboards = Dashboard.objects.filter(team__in=request.user.userprofile.team.all())
+    pipelines = DataPipeline.objects.filter(team__in=request.user.userprofile.team.all())
+    datapoints = DataPointType.objects.filter(pipeline=datapipeline_to_view)
+    data['dashboards'] = dashboards
+    data['pipelines'] = pipelines
+    data['datapipeline'] = datapipeline_to_view
+    data['datapoints'] = datapoints
+    return render(request, "dashboard/dashboard_pipeline.html", data)
 
 def new_chart(request):
     if not request.user.is_authenticated:
@@ -70,5 +80,20 @@ def dashboard(request, pk):
 def api_dashboard(request):
     if not request.user.is_authenticated:
         raise Http404
+    api_token, created = Token.objects.get_or_create(user=request.user)
+    if request.method == 'POST':
+        form = forms.Form(request.POST)
+        if form.is_valid():
+            api_token.delete()
+            api_token = Token.objects.create(user=request.user)
+            return redirect('api_dashboard')
+    else:
+        form = forms.Form()
+    dashboards = Dashboard.objects.filter(team__in=request.user.userprofile.team.all())
+    pipelines = DataPipeline.objects.filter(team__in=request.user.userprofile.team.all())
     data = {}
-    return render(request, "dashboard/dashboard_view.html", data)
+    data['dashboards'] = dashboards
+    data['pipelines'] = pipelines
+    data['api_token'] = api_token
+    data['form'] = form
+    return render(request, "dashboard/dashboard_api.html", data)
