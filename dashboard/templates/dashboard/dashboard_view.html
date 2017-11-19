@@ -11,7 +11,7 @@
         alert(e.data);
     }
     socket.onopen = function() {
-        socket.send("1");
+        socket.send("{{ dashboard_to_view.pipeline.pk }}");
     }
     // Call onopen directly if socket is already open
     if (socket.readyState == WebSocket.OPEN) socket.onopen();
