@@ -5,7 +5,6 @@ from .models import DataPipeline, Chart, Dashboard, DataPointType
 from .forms import ChartForm, DashboardForm, PipelineForm, DataPointTypeForm 
 from django import forms
 from rest_framework.authtoken.models import Token
-# Create your views here.
 
 def dashboard_home(request):
     if not request.user.is_authenticated:
@@ -46,8 +45,13 @@ def new_chart(request):
             return redirect('dashboard_home')
     else:
         form = ChartForm()
-
-    return render(request, "dashboard/dashboard_new_chart.html", {'form': form})
+    dashboards = Dashboard.objects.filter(team__in=request.user.userprofile.team.all())
+    pipelines = DataPipeline.objects.filter(team__in=request.user.userprofile.team.all())
+    data = {}
+    data['dashboards'] = dashboards
+    data['pipelines'] = pipelines
+    data['form'] = form
+    return render(request, "dashboard/dashboard_new_chart.html", data)
 
 def new_dashboard(request):
     if not request.user.is_authenticated:
@@ -65,8 +69,13 @@ def new_dashboard(request):
             return redirect('dashboard_home')
     else:
         form = DashboardForm()
-
-    return render(request, "dashboard/dashboard_new_dashboard.html", {'form': form})
+    dashboards = Dashboard.objects.filter(team__in=request.user.userprofile.team.all())
+    pipelines = DataPipeline.objects.filter(team__in=request.user.userprofile.team.all())
+    data = {}
+    data['dashboards'] = dashboards
+    data['pipelines'] = pipelines
+    data['form'] = form
+    return render(request, "dashboard/dashboard_new_dashboard.html", data)
 
 def new_pipeline(request): #####
     if not request.user.is_authenticated:
@@ -83,8 +92,13 @@ def new_pipeline(request): #####
             return redirect('dashboard_home')
     else:
         form = PipelineForm()
-
-    return render(request, "dashboard/dashboard_new_pipeline.html", {'form': form}) ####
+    dashboards = Dashboard.objects.filter(team__in=request.user.userprofile.team.all())
+    pipelines = DataPipeline.objects.filter(team__in=request.user.userprofile.team.all())
+    data = {}
+    data['dashboards'] = dashboards
+    data['pipelines'] = pipelines
+    data['form'] = form
+    return render(request, "dashboard/dashboard_new_pipeline.html", form)
 
 def new_datapointtype(request): #####
     if not request.user.is_authenticated:
@@ -101,8 +115,13 @@ def new_datapointtype(request): #####
             return redirect('dashboard_home')
     else:
         form = DataPointTypeForm()
-
-    return render(request, "dashboard/dashboard_new_datapointtype.html", {'form': form}) ####
+    dashboards = Dashboard.objects.filter(team__in=request.user.userprofile.team.all())
+    pipelines = DataPipeline.objects.filter(team__in=request.user.userprofile.team.all())
+    data = {}
+    data['dashboards'] = dashboards
+    data['pipelines'] = pipelines
+    data['form'] = form
+    return render(request, "dashboard/dashboard_new_datapointtype.html", data)
 
 def dashboard(request, pk):
     if not request.user.is_authenticated:
@@ -238,4 +257,10 @@ def datapointtype_edit(request, pk):
             return redirect('datapointtype', pk=curr_datapointtype.pk)
     else:
         form = DataPointTypeForm(instance=curr_datapointtype)
-    return render(request, 'dashboard/dashboard_edit_datapointtype.html', {'form': form})
+    dashboards = Dashboard.objects.filter(team__in=request.user.userprofile.team.all())
+    pipelines = DataPipeline.objects.filter(team__in=request.user.userprofile.team.all())
+    data = {}
+    data['dashboards'] = dashboards
+    data['pipelines'] = pipelines
+    data['form'] = form
+    return render(request, 'dashboard/dashboard_edit_datapointtype.html', data)
