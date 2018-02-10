@@ -98,7 +98,7 @@ def new_pipeline(request): #####
     data['dashboards'] = dashboards
     data['pipelines'] = pipelines
     data['form'] = form
-    return render(request, "dashboard/dashboard_new_pipeline.html", form)
+    return render(request, "dashboard/dashboard_new_pipeline.html", data)
 
 def new_datapointtype(request): #####
     if not request.user.is_authenticated:
