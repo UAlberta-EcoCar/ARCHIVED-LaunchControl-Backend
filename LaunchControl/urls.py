@@ -20,5 +20,6 @@ urlpatterns = [
     url(r'^', include('core.urls')),
     url(r'^dashboard/', include('dashboard.urls')),
     url(r'^api/', include('api.urls')),
+    url(r'oauthaccount/', include('allauth.urls')),
     url(r'^admin/', admin.site.urls),
 ]
