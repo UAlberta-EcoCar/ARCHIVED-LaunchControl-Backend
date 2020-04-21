@@ -1,4 +1,4 @@
-Django==1.11.8
+Django # look at commit history for actual versions used
 djangorestframework==3.7.7
 coreapi
 django-filter
