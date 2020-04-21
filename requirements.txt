@@ -1,5 +1,5 @@
 Django # look at commit history for actual versions used
-djangorestframework==3.7.7
+djangorestframework==3.9.1
 coreapi
 django-filter
 drf_openapi==1.3.0 
